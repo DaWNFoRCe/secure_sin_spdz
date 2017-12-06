@@ -1,0 +1,45 @@
+
+##  ssin.mpc
+##
+##  Created by Abdelrahaman Aly on 11/30/17.
+##  Copyright 2017 Abdelrahaman Aly
+import comparison
+import math
+
+program.bit_length = 80
+print "program.bit_length: ", program.bit_length
+program.security = 40
+#program constants
+p_c =[1.57079632679489000000000,-0.64596409750624600000000,0.07969262624616700000000,-0.00468175413531868000000,0.00016044118478735800000,-0.00000359884323520707000,0.00000005692172920657320,-0.00000000066880348849204,0.00000000000606691056085,-0.00000000000004375295071,0.00000000000000025002854]
+pi=math.radians(180)
+pi_over_2=math.radians(90)
+
+
+def ssin(x):
+	#angle reduction  to [0, Pi/2)
+	a =(pi<x)*((x-pi)-x) + x
+	a =(pi_over_2<a)*((pi-a)-a)+a
+	#angle scalation to [0,1)
+	v=a *(1.0/pi_over_2)
+
+	# process to obtain sin following documentation and BBAG12
+	v_2=v**2
+	pre_mult= sfix(1)
+	local_sin=sfix(0)
+	 #Evaluation of the Polynomial
+	for i in  p_c:
+	#@for_range(len(p_c))
+   	#def f(i):
+   		local_sin=local_sin+i*pre_mult
+   		pre_mult=pre_mult*v_2
+
+	return v*local_sin
+
+#Demostrator (printing instructions)
+angle = sfix(3.14159)
+print_ln('Welocme Nigel to Exercise 2! Here we calculate the sin of any numer in radians (fix point)')
+print_ln('You have to set angle to any angle you want')
+print_ln('Angle is set to: %s', angle.reveal())
+print_ln('sin is: %s', ssin(angle).reveal())
+
+
