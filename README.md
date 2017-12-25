@@ -43,3 +43,20 @@ You can reach me for questions at any time
 [1]. Bayatbabolghani, Fattaneh, et al. "Secure Fingerprint Alignment and Matching Protocols." arXiv preprint arXiv:1702.03379 (2017).
 [2]. Bayatbabolghani, Fattaneh, et al. "Poster: Secure Computations of Trigonometric and Inverse Trigonometric Functions."
 
+## Related Developments Update (PreMul Mailing list discussion during the 18-22/12/17 week): 
+In the past days, becuase of the limitiations of current state of the art, I introduced a discussion about PreMul for fix point that might hold some relevance for ssin functionality. As noticed in the group, the best approach for an implementation of a PreMul for fix point would only work for small size arrays (4 elements) and small values, on the default SPDZ config. Although, it would still be proven to be innefective to accelerate the ssin implementation, I have taken the liberty to implement and test the PreMul mechanism to analyze its viability for our functionality just in case. The code of the PreMul is as follows:
+                     
+     def fPreMul(A):
+        B= Array(len(A),sfix)
+        C= Array(len(A),sint)
+        @for_range(len(A))
+        def f(i):
+                C[i]=A[i].v
+        C= comparison.PreMulC(C)
+        #@for_range(len(C))
+        #def f(i):
+        for i in range(len(C)):
+                B[i]=sfix(C[i].__rshift__((i)*(sfix.f), program.bit_length, program.security))
+        return B
+ 
+The experimentation confirms the derived conclusions, the funcitonality works only on small size vectors. This also confirms what is stated in [1] and [2], singaling further research is needed to obtain a viable and efficient PreMul for fix point. Hence making it not adequate for our ssin funcitonality. I harbor hopes that further research could provide an adequate and efficient protocol.
