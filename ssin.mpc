@@ -13,14 +13,13 @@ p_c =[1.57079632679489000000000,-0.64596409750624600000000,0.0796926262461670000
 pi=math.radians(180)
 pi_over_2=math.radians(90)
 
-
 def ssin(x):
 	#angle reduction  to [0, Pi/2)
-	a =(pi<x)*((x-pi)-x) + x
+	s=(pi<x)
+	a =s*((x-pi)-x) + x
 	a =(pi_over_2<a)*((pi-a)-a)+a
 	#angle scalation to [0,1)
 	v=a *(1.0/pi_over_2)
-
 	# process to obtain sin following documentation and BBAG12
 	v_2=v**2
 	pre_mult= sfix(1)
@@ -31,8 +30,8 @@ def ssin(x):
    	#def f(i):
    		local_sin=local_sin+i*pre_mult
    		pre_mult=pre_mult*v_2
-
-	return v*local_sin
+   	local_sin=	v*local_sin
+	return  (-2*s +1)*local_sin
 
 #Demostrator (printing instructions)
 angle = sfix(3.14159)
